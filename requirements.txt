@@ -1,2 +1,3 @@
-Flask==2.3.3  # Latest stable version of Flask as of 2024
-gunicorn==21.2.0  # For running the Flask app in production
+Flask==2.3.3
+gunicorn==21.2.0
+mysql-connector-python==8.0.33  # MySQL connector for Python

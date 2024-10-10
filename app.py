@@ -1,17 +1,19 @@
 from flask import Flask, request, render_template, redirect, url_for, flash
-import sqlite3
+import mysql.connector
 import string
 import random
 
 app = Flask(__name__)
 app.secret_key = 'your_secret_key'
 
-# SQLite DB setup
-DATABASE = 'database.db'
-
+# MySQL DB setup
 def get_db_connection():
-    conn = sqlite3.connect(DATABASE)
-    conn.row_factory = sqlite3.Row
+    conn = mysql.connector.connect(
+        host="sql12.freesqldatabase.com",
+        user="sql12736781",
+        password="firndGlKrV",
+        database="sql12736781"
+    )
     return conn
 
 # Function to generate a new random link (you can modify this logic)
@@ -34,9 +36,11 @@ def index():
 
         # Store in database
         conn = get_db_connection()
-        conn.execute('INSERT INTO links (original_link, new_link) VALUES (?, ?)',
-                     (original_link, new_link))
+        cursor = conn.cursor()
+        cursor.execute('INSERT INTO links (original_link, new_link) VALUES (%s, %s)', 
+                       (original_link, new_link))
         conn.commit()
+        cursor.close()
         conn.close()
 
         # Send the new link to frontend
@@ -48,7 +52,10 @@ def index():
 @app.route('/<new_link>')
 def redirect_link(new_link):
     conn = get_db_connection()
-    link_data = conn.execute('SELECT original_link FROM links WHERE new_link = ?', (new_link,)).fetchone()
+    cursor = conn.cursor(dictionary=True)
+    cursor.execute('SELECT original_link FROM links WHERE new_link = %s', (new_link,))
+    link_data = cursor.fetchone()
+    cursor.close()
     conn.close()
 
     if link_data:
@@ -58,17 +65,19 @@ def redirect_link(new_link):
         flash('Link not found!', 'error')
         return redirect(url_for('index'))
 
-# Initialize the database with a table
+# Initialize the database with a table (Run this once to set up the table)
 def init_db():
     conn = get_db_connection()
-    conn.execute('''
+    cursor = conn.cursor()
+    cursor.execute('''
         CREATE TABLE IF NOT EXISTS links (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            id INT AUTO_INCREMENT PRIMARY KEY,
             original_link TEXT NOT NULL,
-            new_link TEXT NOT NULL UNIQUE
+            new_link VARCHAR(255) NOT NULL UNIQUE
         )
     ''')
     conn.commit()
+    cursor.close()
     conn.close()
 
 if __name__ == '__main__':
