@@ -1,0 +1,2 @@
+Flask==2.3.3  # Latest stable version of Flask as of 2024
+gunicorn==21.2.0  # For running the Flask app in production
