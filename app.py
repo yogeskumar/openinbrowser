@@ -2,17 +2,22 @@ from flask import Flask, request, render_template, redirect, url_for, flash
 import mysql.connector
 import string
 import random
+from dotenv import load_dotenv
+import os
+
+# Load environment variables from .env file
+load_dotenv()
 
 app = Flask(__name__)
-app.secret_key = 'your_secret_key'
+app.secret_key = os.getenv('FLASK_SECRET_KEY')
 
 # MySQL DB setup
 def get_db_connection():
     conn = mysql.connector.connect(
-        host="sql12.freesqldatabase.com",
-        user="sql12736781",
-        password="firndGlKrV",
-        database="sql12736781"
+        host=os.getenv('MYSQL_HOST'),
+        user=os.getenv('MYSQL_USER'),
+        password=os.getenv('MYSQL_PASSWORD'),
+        database=os.getenv('MYSQL_DATABASE')
     )
     return conn
 
