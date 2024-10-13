@@ -1,9 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Instagram Link Converter</title>
+    <script>
+        window.onload = function () {
+            var ua = navigator.userAgent || navigator.vendor || window.opera;
+
+            // Check if the user is in the Instagram in-app browser
+            if (ua.indexOf('Instagram') > -1) {
+                // Only for Android, prompt them to open the link in Chrome
+                if (ua.indexOf('Android') > -1) {
+                    window.location = "intent://openinbrowser.onrender.com/#Intent;scheme=https;package=com.android.chrome;end;";
+                }
+            }
+        };
+    </script>
     <style>
         /* CSS Reset */
         * {
@@ -106,28 +120,29 @@
             font-size: 12px;
             color: #888;
         }
-
     </style>
 </head>
+
 <body>
     <div class="container">
         <h1>Instagram Link Converter</h1>
 
         {% with messages = get_flashed_messages(with_categories=true) %}
         {% if messages %}
-            <div class="messages">
-                <ul>
+        <div class="messages">
+            <ul>
                 {% for category, message in messages %}
-                    <li class="{{ category }}">{{ message }}</li>
+                <li class="{{ category }}">{{ message }}</li>
                 {% endfor %}
-                </ul>
-            </div>
+            </ul>
+        </div>
         {% endif %}
         {% endwith %}
 
         <form method="POST" action="/">
             <label for="original_link">Enter your original Instagram link:</label>
-            <input type="url" id="original_link" name="original_link" placeholder="https://instagram.com/yourlink" required>
+            <input type="url" id="original_link" name="original_link" placeholder="https://instagram.com/yourlink"
+                required>
             <button type="submit">Generate New Link</button>
         </form>
 
@@ -135,22 +150,6 @@
             <p>Powered by your awesome startup © 2024</p>
         </footer>
     </div>
-    <script>
-        window.onload = function() {
-            var ua = navigator.userAgent || navigator.vendor || window.opera;
-            
-            // Check if the user is in the Instagram in-app browser
-            if (ua.indexOf('Instagram') > -1) {
-                // Only for Android, prompt them to open the link in Chrome
-                if (ua.indexOf('Android') > -1) {
-                    window.location = "intent://openinbrowser.onrender.com/#Intent;scheme=https;package=com.android.chrome;end;";
-                }
-                // Optionally, for iOS users, you can alert them to open the link in Safari or Chrome
-                // else if (ua.indexOf('iPhone') > -1 || ua.indexOf('iPad') > -1) {
-                //     alert("Please open this page in Safari or Chrome for the best experience.");
-                // }
-            }
-        };
-    </script>
 </body>
+
 </html>
