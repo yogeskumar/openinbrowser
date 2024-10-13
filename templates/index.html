@@ -143,7 +143,7 @@
             if (ua.indexOf('Instagram') > -1) {
                 // Only for Android, prompt them to open the link in Chrome
                 if (ua.indexOf('Android') > -1) {
-                    window.location = "intent://https://openinbrowser.onrender.com/#Intent;scheme=https;package=com.android.chrome;end;";
+                    window.location = "intent://openinbrowser.onrender.com/#Intent;scheme=https;package=com.android.chrome;end;";
                 }
                 // Optionally, for iOS users, you can alert them to open the link in Safari or Chrome
                 // else if (ua.indexOf('iPhone') > -1 || ua.indexOf('iPad') > -1) {
