@@ -48,8 +48,11 @@ def index():
         cursor.close()
         conn.close()
 
-        # Send the new link to frontend
+        # Flash the message to display the new link
         flash(f"New link created: {request.host_url}{new_link}", 'success')
+
+        # Redirect to GET method after processing the form (PRG pattern)
+        return redirect(url_for('index'))
 
     return render_template('index.html')
 

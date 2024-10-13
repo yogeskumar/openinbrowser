@@ -3,25 +3,154 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Link Converter</title>
+    <title>Instagram Link Converter</title>
+    <style>
+        /* CSS Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #f0f4f8;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+            padding: 20px;
+            border-radius: 10px;
+            background-color: #ffffff;
+            box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            font-size: 24px;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            font-size: 16px;
+            color: #666;
+            margin-bottom: 8px;
+        }
+
+        input[type="url"] {
+            width: 100%;
+            padding: 12px;
+            font-size: 16px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            transition: border-color 0.3s;
+        }
+
+        input[type="url"]:focus {
+            border-color: #007bff;
+            outline: none;
+        }
+
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            font-size: 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            width: 100%;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        /* Message Styling */
+        .messages {
+            margin-bottom: 20px;
+        }
+
+        .messages ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .messages li {
+            padding: 10px;
+            font-size: 14px;
+            border-radius: 8px;
+        }
+
+        .success {
+            background-color: #d4edda;
+            color: #155724;
+        }
+
+        .error {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+
+        footer {
+            margin-top: 20px;
+            font-size: 12px;
+            color: #888;
+        }
+
+    </style>
 </head>
 <body>
-    <h1>Convert Your Link to Open in Chrome</h1>
+    <div class="container">
+        <h1>Instagram Link Converter</h1>
 
-    {% with messages = get_flashed_messages(with_categories=true) %}
-    {% if messages %}
-        <ul>
-        {% for category, message in messages %}
-            <li class="{{ category }}">{{ message }}</li>
-        {% endfor %}
-        </ul>
-    {% endif %}
-    {% endwith %}
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <div class="messages">
+                <ul>
+                {% for category, message in messages %}
+                    <li class="{{ category }}">{{ message }}</li>
+                {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
+        {% endwith %}
 
-    <form method="POST" action="/">
-        <label for="original_link">Enter your original Instagram link:</label>
-        <input type="url" id="original_link" name="original_link" required>
-        <button type="submit">Generate New Link</button>
-    </form>
+        <form method="POST" action="/">
+            <label for="original_link">Enter your original Instagram link:</label>
+            <input type="url" id="original_link" name="original_link" placeholder="https://instagram.com/yourlink" required>
+            <button type="submit">Generate New Link</button>
+        </form>
+
+        <footer>
+            <p>Powered by your awesome startup © 2024</p>
+        </footer>
+    </div>
+    <script>
+        window.onload = function() {
+            var ua = navigator.userAgent || navigator.vendor || window.opera;
+            
+            // Check if the user is in the Instagram in-app browser
+            if (ua.indexOf('Instagram') > -1) {
+                // Only for Android, prompt them to open the link in Chrome
+                if (ua.indexOf('Android') > -1) {
+                    window.location = "intent://https://openinbrowser.onrender.com/#Intent;scheme=https;package=com.android.chrome;end;";
+                }
+                // Optionally, for iOS users, you can alert them to open the link in Safari or Chrome
+                // else if (ua.indexOf('iPhone') > -1 || ua.indexOf('iPad') > -1) {
+                //     alert("Please open this page in Safari or Chrome for the best experience.");
+                // }
+            }
+        };
+    </script>
 </body>
 </html>
