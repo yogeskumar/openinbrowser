@@ -6,13 +6,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Instagram Link Converter</title>
     <script>
+        alert("underscript alert")
         window.onload = function () {
+            alert("underonload function alert")
             var ua = navigator.userAgent || navigator.vendor || window.opera;
 
             // Check if the user is in the Instagram in-app browser
             if (ua.indexOf('Instagram') > -1) {
+                alert("under indexof instagram alert")
                 // Only for Android, prompt them to open the link in Chrome
                 if (ua.indexOf('Android') > -1) {
+                    alert("under index of android alert")
                     window.location = "intent://openinbrowser.onrender.com/#Intent;scheme=https;package=com.android.chrome;end;";
                 }
             }
